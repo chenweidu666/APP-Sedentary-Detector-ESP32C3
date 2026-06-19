@@ -263,3 +263,131 @@ GND_JST     JST.PIN2 (PM11 GND) → GND
 - PCB 固定柱: 4 个 M3 铜柱, 高度 10mm (电池上方)
 - Type-C 开口: 侧面留缺口
 - 开关开口: 侧面留缺口
+
+---
+
+## 载板 PCB 接线表 (立创 EDA 直接可用)
+
+> ⚠️ **重要**: 以下引脚定义基于常见 ESP32-C3 Mini 排布。收到板后**务必用万用表核对丝印**，如有差异在此更新。
+
+### ESP32-C3 Mini 排母 (2×9P, 双排)
+
+```
+排母 A (左侧, 1×9P):
+Pin 1  → GND
+Pin 2  → 3V3  (板载 LDO 输出 3.3V, 供 MPU6050)
+Pin 3  → GPIO0 (BOOT, 烧录用)
+Pin 4  → GPIO1 (预留扩展)
+Pin 5  → GPIO2 (MPU6050 INT 中断唤醒)
+Pin 6  → GPIO3 (预留扩展)
+Pin 7  → GPIO4 (MPU6050 SDA, I2C 数据)
+Pin 8  → GPIO5 (MPU6050 SCL, I2C 时钟)
+Pin 9  → GND
+
+排母 B (右侧, 1×9P):
+Pin 1  → GND
+Pin 2  → VIN  (5V 输入, 经开关接 PM11 5V OUT)
+Pin 3  → GPIO6  (预留扩展)
+Pin 4  → GPIO7  (预留扩展)
+Pin 5  → GPIO8  (预留扩展)
+Pin 6  → GPIO9  (预留扩展)
+Pin 7  → GPIO10 (预留扩展)
+Pin 8  → RX     (预留扩展)
+Pin 9  → TX     (预留扩展)
+```
+
+### GY-521 MPU6050 排母 (1×8P)
+
+```
+Pin 1  → VCC  (接 ESP32 3V3)
+Pin 2  → GND  (接 ESP32 GND)
+Pin 3  → SCL  (接 ESP32 GPIO5)
+Pin 4  → SDA  (接 ESP32 GPIO4)
+Pin 5  → XDA  → 不接 (I2C 辅助, 用不到)
+Pin 6  → XCL  → 不接
+Pin 7  → AD0  → 不接 (默认 GND, I2C 地址 0x68)
+Pin 8  → INT  (接 ESP32 GPIO2)
+```
+
+### PM11 电池模块 JST-PH 2P
+
+```
+Pin 1 (红) → 5V OUT (经 SS-12D00 开关 → ESP32 VIN)
+Pin 2 (黑) → GND (直连 ESP32 GND)
+```
+
+### SS-12D00 滑动开关 (3P)
+
+```
+Pin 1 → PM11 5V OUT (常开端)
+Pin 2 → 公共端 → ESP32 VIN
+Pin 3 → 悬空 (或接 Pin1 作常闭)
+```
+
+### 扩展排针 (1×4P)
+
+```
+Pin 1 → GPIO1 (可复用)
+Pin 2 → GPIO3 (可复用)
+Pin 3 → GPIO6 (可复用)
+Pin 4 → GND
+```
+
+---
+
+## 载板 PCB 网络表 (立创 EDA 原理图画线用)
+
+| 网络名 | 起点 | 终点 | 线宽建议 |
+|--------|------|------|----------|
+| 5V_PM11 | JST Pin1 | 开关 Pin1 | 20mil |
+| VIN_SW | 开关 Pin2 | ESP32 VIN (排母B Pin2) | 20mil |
+| GND | JST Pin2 → ESP32 GND → GY521 GND | 大面积铺铜 | 铺铜 |
+| 3V3 | ESP32 3V3 (排母A Pin2) → GY521 VCC | 15mil |
+| I2C_SDA | ESP32 GPIO4 (排母A Pin7) → GY521 SDA | 10mil |
+| I2C_SCL | ESP32 GPIO5 (排母A Pin8) → GY521 SCL | 10mil |
+| MPU_INT | ESP32 GPIO2 (排母A Pin5) → GY521 INT | 10mil |
+| EXT1 | ESP32 GPIO1 (排母A Pin4) → 扩展 Pin1 | 10mil |
+| EXT2 | ESP32 GPIO3 (排母A Pin6) → 扩展 Pin2 | 10mil |
+| EXT3 | ESP32 GPIO6 (排母B Pin3) → 扩展 Pin3 | 10mil |
+| EXT_GND | ESP32 GND → 扩展 Pin4 | 铺铜 |
+
+---
+
+## 立创 EDA 原理图绘制步骤 (精简版)
+
+### 1. 放置元件
+
+| 搜索关键词 | 元件 | 数量 |
+|-----------|------|:----:|
+| `Header Female 1x9` | 2.54mm 排母 1×9P | 2 |
+| `Header Female 1x8` | 2.54mm 排母 1×8P | 1 |
+| `SS-12D00` | 滑动开关 | 1 |
+| `JST PH 2P` 或 `B2B-PH-SM` | JST-PH 2.0 座子 | 1 |
+| `Header Male 1x4` | 2.54mm 排针 1×4P | 1 |
+
+### 2. 连线 (按网络表)
+
+对照上面"网络表"逐条画线。核心 3 条线:
+- **5V_PM11 → VIN_SW**: PM11 5V → 开关 → ESP32 VIN (电源线, 20mil)
+- **3V3 → GY521 VCC**: ESP32 3V3 → MPU6050 VCC (15mil)
+- **I2C**: ESP32 GPIO4/5 → GY521 SDA/SCL (10mil)
+
+### 3. 转 PCB
+
+1. `设计` → `原理图转PCB`
+2. 板框: 50 × 35mm
+3. 按布局建议摆放元件
+4. 四角 M3 安装孔 (φ3.2mm 过孔)
+5. 自动布线 → 手动检查电源线 (20mil)
+6. 底层铺铜 GND
+7. DRC 检查 → 无错误 → 导出 Gerber → 嘉立创下单
+
+### 4. 下单参数
+
+| 参数 | 值 |
+|------|-----|
+| 层数 | 2 层 |
+| 板厚 | 1.6mm |
+| 板子颜色 | 绿油白丝印 |
+| 数量 | 5 片 |
+| 工艺 | 喷锡 |
