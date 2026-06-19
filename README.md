@@ -18,9 +18,30 @@
 |------|------|
 | 硬件方案 | ✅ 已完成 (ESP32-C3 + GY-521 + PM11) |
 | 载板 PCB 设计 | ✅ 已完成 (接线表、网络表、立创 EDA 步骤) |
+| Wokwi 仿真 | ✅ 已完成 (ESP32 + MPU6050, 检测算法验证) |
 | 固件开发 | ⏳ 待开始 |
 | 3D 底座 | ⏳ 待设计 |
 | 采购 | ⏳ 待下单 |
+
+### Wokwi 仿真
+
+仿真项目位于 `simulation/` 目录，可直接在 [Wokwi](https://wokwi.com) 打开：
+
+```
+ESP32 ──I2C──→ MPU6050
+  │
+  ├── LED 绿色 → 有人坐
+  └── LED 红色 → 久坐提醒 (>45min)
+```
+
+**仿真功能**:
+- MPU6050 加速度读取 + 倾斜角计算
+- 上电自动校准基准角度
+- 坐人检测 (角度变化 > 1° 持续 3 次确认)
+- 久坐计时 + 串口输出
+- 绿色 LED = 有人坐, 红色 LED = 久坐提醒
+
+**使用**: 打开 [Wokwi](https://wokwi.com/projects/new/esp32)，上传 `simulation/` 目录下的文件，或直接在 [wokwi.com](https://wokwi.com) 搜索项目。
 
 ---
 
@@ -277,10 +298,18 @@ Topic: home/chair/desk/angle       → 当前倾斜角 (度)
 ## 项目结构
 
 ```
-APP-Sedentary-Detector-ESP32/
+04-久坐检测ESP32/
 ├── README.md                    # 项目说明 (本文件)
 ├── LICENSE                      # MIT
-├── firmware/                    # ESP32-C3 固件
+├── simulation/                  # Wokwi 仿真
+│   ├── diagram.json             # 电路连接 (ESP32 + MPU6050 + LED)
+│   ├── wokwi.toml               # Wokwi 配置
+│   └── src/
+│       └── main.cpp             # 固件源码 (角度检测 + 久坐计时)
+├── hardware/                    # 载板 PCB 设计
+│   ├── PCB_DESIGN.md            # 载板设计说明 + 接线表
+│   └── easyeda/                 # 立创 EDA 工程文件 (待创建)
+├── firmware/                    # ESP32-C3 固件 (待开发)
 │   ├── src/
 │   │   ├── main.cpp             # 主逻辑: 初始化、主循环、Deep Sleep
 │   │   ├── mpu6050.h / .cpp     # MPU6050 驱动 (I2C, DMP)
@@ -289,38 +318,36 @@ APP-Sedentary-Detector-ESP32/
 │   │   ├── power.h / .cpp       # 电源管理 (Deep Sleep, 电池电量)
 │   │   └── config.h             # 参数配置 (阈值、时间)
 │   └── platformio.ini           # PlatformIO 工程配置
-├── hardware/                    # 载板 PCB 设计
-│   ├── PCB_DESIGN.md            # 载板设计说明
-│   ├── BOM.csv                  # 物料清单
-│   └── kicad/ 或 easyeda/       # PCB 工程文件
 ├── mechanical/                  # 3D 打印底座
-│   └── base.stl                 # 底座模型
+│   └── base.stl                 # 底座模型 (待设计)
 └── docs/
-    └── calibration.md           # 校准指南
+    └── calibration.md           # 校准指南 (待编写)
 ```
 
 ---
 
 ## 开发计划
 
-### Phase 1: 硬件验证 (当前)
+### Phase 1: 仿真验证 (当前)
 
-- [ ] 购买 ESP32-C3 Mini + GY-521 + TP4056 模块
+- [x] Wokwi 仿真 (ESP32 + MPU6050 + LED)
+- [x] 角度检测算法验证
+- [x] 久坐计时逻辑
+- [ ] 在 Wokwi 中调整参数，确认检测准确率
+- [ ] 购买 ESP32-C3 Mini + GY-521 + PM11 模块
 - [ ] 面包板搭建原型，验证接线
-- [ ] 测试 MPU6050 数据读取 (加速度、角度)
 - [ ] 实测椅子坐下/站起时的角度变化数据
 - [ ] 确定安装位置和固定方式
 
 ### Phase 2: 载板 PCB + 固件开发
 
-- [ ] 设计载板 PCB (排母座插接各模块)
+- [ ] 立创 EDA 绘制载板 PCB
 - [ ] 嘉立创打样、焊接排母座和开关
-- [ ] MPU6050 驱动 (I2C 通信 + DMP 姿态解算)
-- [ ] 坐人检测算法 (角度 + 振动双判据)
+- [ ] 固件移植 (Wokwi → 真实硬件)
+- [ ] MPU6050 DMP 姿态解算
 - [ ] Deep Sleep + RTC 定时唤醒
 - [ ] MPU6050 Motion Interrupt 唤醒
 - [ ] BLE 广播实现
-- [ ] 久坐计时与提醒逻辑
 - [ ] 电池电量检测 (ADC)
 - [ ] 功耗实测与优化
 

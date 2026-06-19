@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'src/main.cpp'
+elf = 'build/main.elf'
