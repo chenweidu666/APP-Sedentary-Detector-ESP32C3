@@ -1,0 +1,15 @@
+# Build
+.pio/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.swp
+*.bak
