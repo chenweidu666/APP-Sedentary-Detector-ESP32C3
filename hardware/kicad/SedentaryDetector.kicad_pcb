@@ -140,7 +140,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
 			(thermal_bridge_angle 45)
 			(uuid "06df090f-6cdc-45f6-ae8e-c0698e3ed1d0")
 		)
@@ -150,7 +149,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "3V3")
 			(uuid "15b0bb28-99f5-4a5f-9bf7-4e06613d1119")
 		)
 		(pad "3" thru_hole circle
@@ -175,7 +173,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "MPU_INT")
 			(uuid "d3ea2312-c5c4-4714-8e6e-a44330a4307b")
 		)
 		(pad "6" thru_hole circle
@@ -192,7 +189,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "I2C_SDA")
 			(uuid "72efcba8-08a6-4c66-b6a7-ec3a60582da2")
 		)
 		(pad "8" thru_hole circle
@@ -201,7 +197,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "I2C_SCL")
 			(uuid "e3b14b14-549b-4420-806a-9e268cd056ba")
 		)
 		(pad "9" thru_hole circle
@@ -266,7 +261,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
 			(thermal_bridge_angle 45)
 			(uuid "96bf8097-1c3e-46ee-9b8d-4323c7f5dc86")
 		)
@@ -276,7 +270,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "VIN_SW")
 			(uuid "c21178e4-3208-4665-8295-98661ee18b0f")
 		)
 		(pad "18" thru_hole circle
@@ -606,7 +599,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "3V3")
 			(thermal_bridge_angle 45)
 			(uuid "6229d513-323e-4fed-8951-1fcd90862182")
 		)
@@ -616,7 +608,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
 			(uuid "7ad5a8fb-aa6e-4b86-882c-fdf6b03c19f9")
 		)
 		(pad "3" thru_hole circle
@@ -625,7 +616,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "I2C_SCL")
 			(uuid "d4bf4104-006d-405b-8ed2-ea3a7aa4131e")
 		)
 		(pad "4" thru_hole circle
@@ -634,7 +624,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "I2C_SDA")
 			(uuid "0994c787-5790-4b95-a504-9056f0fc22c6")
 		)
 		(pad "5" thru_hole circle
@@ -667,7 +656,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "MPU_INT")
 			(uuid "7bc66f47-2899-4872-808b-b9a16bb61b21")
 		)
 		(embedded_fonts no)
