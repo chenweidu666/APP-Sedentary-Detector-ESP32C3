@@ -20,3 +20,4 @@ SedentaryDetector-backups/
 *.kicad_lck
 output/
 
+*drc.rpt
