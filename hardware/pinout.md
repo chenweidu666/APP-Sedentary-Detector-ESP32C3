@@ -1,6 +1,10 @@
-# ESP32-WROOM-32 引脚定义 (2×15, 30 Pin)
+# ESP32 2×15 引脚定义 (KiCad 载板权威)
 
-## 左列引脚 (Pin 1-15, 从上到下)
+[← 硬件文档索引](HARDWARE.md)
+
+> **Agent / KiCad 脚本**以本文 Pin 1–30 编号为准。开发板丝印左/右列对照见 [`modules/esp32-devkitc.md`](modules/esp32-devkitc.md)。
+
+## 左列引脚 (Pin 1–15, 从上到下)
 
 | Pin | 引脚 | 功能说明 |
 |-----|------|----------|
@@ -20,7 +24,7 @@
 | 14 | GND | 接地 |
 | 15 | VIN | 外部电源输入 (5V) |
 
-## 右列引脚 (Pin 16-30, 从上到下)
+## 右列引脚 (Pin 16–30, 从上到下)
 
 | Pin | 引脚 | 功能说明 |
 |-----|------|----------|
@@ -34,7 +38,7 @@
 | 23 | GPIO17 | UART2 TXD |
 | 24 | GPIO16 | UART2 RXD |
 | 25 | GPIO4 | TOUCH0 / ADC2_CH0 |
-| 26 | GPIO2 | TOUCH2 / 板载LED |
+| 26 | GPIO2 | TOUCH2 / 板载 LED |
 | 27 | GPIO15 | U0 RTS / TOUCH3 |
 | 28 | GND | 接地 |
 | 29 | 3V3 | 3.3V 电源输出 |
@@ -61,3 +65,5 @@
 Wire.begin(4, 5);  // SDA=GPIO4, SCL=GPIO5
 // INT 接 GPIO2（与板载 LED 共用）
 ```
+
+载板接线与网络名见 [`carrier/nets.md`](carrier/nets.md)。
