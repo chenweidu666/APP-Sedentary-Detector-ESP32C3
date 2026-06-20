@@ -70,7 +70,7 @@
 > - GPIO0 下载模式 (板子底部 BOOT 按钮)
 > - 板载 LED 在 GPIO2
 
-### GY-521 模块 (MPU6050)
+### MPU6050 模块
 
 ![MPU6050 GY-521](images/6050.png)
 
