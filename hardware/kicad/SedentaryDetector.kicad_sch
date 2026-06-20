@@ -10,6 +10,123 @@
 		(rev "0.2")
 	)
 	(lib_symbols
+		(symbol "Conn_01x02"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J3"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "POWER_2P"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x02_0_1"
+				(rectangle
+					(start -5.08 2.54)
+					(end 5.08 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "Conn_01x02_1_1"
+				(pin passive line
+					(at 0 1.27 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -1.27 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Conn_01x08"
 			(pin_names
 				(offset 1.016)
@@ -856,19 +973,207 @@
 			)
 			(embedded_fonts no)
 		)
-	
-		(symbol "Conn_01x02" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
-			(property "Reference" "J3" (at 0 2.54 0) (effects (font (size 1.27 1.27)) (justify left)))
-			(property "Value" "POWER_2P" (at 0 5.08 0) (effects (font (size 1.27 1.27)) (justify left)))
-			(property "Footprint" "" (at 0 -5.08 0) (effects (font (size 1.27 1.27)) (hide yes)))
-			(property "Datasheet" "~" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
-			(symbol "Conn_01x02_0_1" (rectangle (start -5.08 2.54) (end 5.08 -2.54) (stroke (width 0.254) (type default)) (fill (type background))))
-			(symbol "Conn_01x02_1_1"
-				(pin passive line (at 0 1.27 0) (length 2.54) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
-				(pin passive line (at 0 -1.27 0) (length 2.54) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+	)
+	(label "3V3"
+		(at 42.38 79.68 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0767a0ae-3dc1-4b81-9770-6b32bac419b2")
+	)
+	(label "MPU_INT"
+		(at 57.62 105.08 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "091b31c6-42fc-4d4d-b29f-38fa3f08ef8f")
+	)
+	(label "GND"
+		(at 81.28 82.55 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2db5513c-95cc-4af6-babf-b11ed80d199c")
+	)
+	(label "I2C_SCL"
+		(at 81.28 85.09 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "59275789-68f8-4175-a152-e80e3203e8ee")
+	)
+	(label "I2C_SDA"
+		(at 81.28 87.63 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7b67c8e7-c5eb-4ca4-a333-639fc463ecb3")
+	)
+	(label "I2C_SDA"
+		(at 57.62 112.7 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "91072683-a78d-4753-9c7e-fde7e213b3c6")
+	)
+	(label "3V3"
+		(at 81.28 80.01 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a7157f80-ced1-4af1-ac20-21ec5169a723")
+	)
+	(label "GND"
+		(at 57.62 87.3 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "aebce1ca-9f27-439a-be95-71078cee59d2")
+	)
+	(label "MPU_INT"
+		(at 81.28 97.79 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c7b0969d-e82c-44fb-b4de-25247355cf73")
+	)
+	(label "GND"
+		(at 57.62 110.16 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c8bd9d92-f944-4d13-90ea-e9fccfc396a5")
+	)
+	(label "GND"
+		(at 42.38 112.7 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ca81218d-1086-42a7-8dc8-c2c12141bbfe")
+	)
+	(label "I2C_SCL"
+		(at 57.62 94.92 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "fb816834-4719-4a9f-b33e-c78b6bbd71e4")
+	)
+	(symbol
+		(lib_id "Conn_01x02")
+		(at 80.01 114.3 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "09fcbb10-6269-4ae4-8227-6cf9cec0f571")
+		(property "Reference" "J3"
+			(at 80.01 116.84 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
-)
+		(property "Value" "POWER_2P"
+			(at 80.01 119.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 80.01 111.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 80.01 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 80.01 114.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a5c2d037-d30c-43dc-b896-8d72b4716ad1")
+		)
+		(pin "2"
+			(uuid "b79cd29d-0142-4f9e-8ed3-ddb1bc981956")
+		)
+		(instances
+			(project "SedentaryDetector"
+				(path "/c9bb8533-5510-495a-86a1-47335bb4bfe4"
+					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
 	(symbol
 		(lib_id "Conn_01x08")
 		(at 81.28 90.17 0)
@@ -1131,16 +1436,7 @@
 			)
 		)
 	)
-	
-	(symbol (lib_id "Conn_01x02") (at 300 100 0) (unit 1) (in_bom yes) (on_board yes) (uuid "09fcbb10-6269-4ae4-8227-6cf9cec0f571")
-		(property "Reference" "J3" (at 300 102.54 0) (effects (font (size 1.27 1.27)) (justify left)))
-		(property "Value" "POWER_2P" (at 300 105.08 0) (effects (font (size 1.27 1.27)) (justify left)))
-		(property "Footprint" "" (at 300 97.5 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(property "Datasheet" "~" (at 300 100 0) (effects (font (size 1.27 1.27)) (hide yes)))
-		(pin "1" (uuid a5c2d037-d30c-43dc-b896-8d72b4716ad1))
-		(pin "2" (uuid b79cd29d-0142-4f9e-8ed3-ddb1bc981956))
-	)
-(sheet_instances
+	(sheet_instances
 		(path "/"
 			(page "1")
 		)
