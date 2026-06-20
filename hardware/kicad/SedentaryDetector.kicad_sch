@@ -856,7 +856,19 @@
 			)
 			(embedded_fonts no)
 		)
-	)
+	
+		(symbol "Conn_01x02" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+			(property "Reference" "J3" (at 0 2.54 0) (effects (font (size 1.27 1.27)) (justify left)))
+			(property "Value" "POWER_2P" (at 0 5.08 0) (effects (font (size 1.27 1.27)) (justify left)))
+			(property "Footprint" "" (at 0 -5.08 0) (effects (font (size 1.27 1.27)) (hide yes)))
+			(property "Datasheet" "~" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+			(symbol "Conn_01x02_0_1" (rectangle (start -5.08 2.54) (end 5.08 -2.54) (stroke (width 0.254) (type default)) (fill (type background))))
+			(symbol "Conn_01x02_1_1"
+				(pin passive line (at 0 1.27 0) (length 2.54) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))
+				(pin passive line (at 0 -1.27 0) (length 2.54) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))
+			)
+		)
+)
 	(symbol
 		(lib_id "Conn_01x08")
 		(at 81.28 90.17 0)
@@ -1119,7 +1131,16 @@
 			)
 		)
 	)
-	(sheet_instances
+	
+	(symbol (lib_id "Conn_01x02") (at 300 100 0) (unit 1) (in_bom yes) (on_board yes) (uuid "09fcbb10-6269-4ae4-8227-6cf9cec0f571")
+		(property "Reference" "J3" (at 300 102.54 0) (effects (font (size 1.27 1.27)) (justify left)))
+		(property "Value" "POWER_2P" (at 300 105.08 0) (effects (font (size 1.27 1.27)) (justify left)))
+		(property "Footprint" "" (at 300 97.5 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(property "Datasheet" "~" (at 300 100 0) (effects (font (size 1.27 1.27)) (hide yes)))
+		(pin "1" (uuid a5c2d037-d30c-43dc-b896-8d72b4716ad1))
+		(pin "2" (uuid b79cd29d-0142-4f9e-8ed3-ddb1bc981956))
+	)
+(sheet_instances
 		(path "/"
 			(page "1")
 		)
