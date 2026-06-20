@@ -45,13 +45,15 @@ MPU6050 有内置 DMP 可硬件计算姿态角，减轻 MCU 负担；6 轴数据
 
 ### ESP32-WROOM-32 开发板 (合宙)
 
+![ESP32-WROOM-32 引脚图](images/esp32-wroom-32-pinout.jpg)
+
 ```
 尺寸: 51.85 × 23.5 mm
 引脚: 2 × 15pin 排针, 2.54mm 间距, 排针间距 23.5mm
 安装孔: 4× φ3mm, 距边 3mm
 
-             USB-C (上方)
-      ┌─────────────────────────────────┐
+             USB-C (下方)
+      ─────────────────────────────────┐
       │ O                             O │ ← 安装孔 φ3mm
   GND │ ●  [ESP32-WROOM-32]          ● │ GND
    5V │ ●                             ● │ 3V3
@@ -63,8 +65,12 @@ MPU6050 有内置 DMP 可硬件计算姿态角，减轻 MCU 负担；6 轴数据
   IO5 │ ●  ← SCL                     ● │ IO5
    RX │ ●                             ● │ TX
       │ O                             O │
-      └─────────────────────────────────┘
+      ─────────────────────────────────┘
         ←──── 51.85mm ────→
+
+实际引脚定义 (从图片):
+左列 (上→下): EN, GPIO15, GPIO14, GPIO13, GPIO12, GPIO11, GPIO10, GPIO9, GPIO8, GPIO7, GPIO6, GPIO5, GPIO4, GPIO3, GPIO2, GND, VIN
+右列 (上→下): GPIO23, GPIO22, GPIO21, GPIO19, GPIO18, GPIO5, GPIO17, GPIO16, GPIO4, GPIO2, GPIO15, GPIO13, GND, VCC 3V3
 
 本设计使用:
   - GPIO4 → SDA (I2C 数据)
