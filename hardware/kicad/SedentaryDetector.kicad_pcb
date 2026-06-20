@@ -628,46 +628,6 @@
 		)
 		(embedded_fonts no)
 	)
-	(gr_line
-		(start 146.54 55.77)
-		(end 176.04 55.77)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "5dc1feb2-e1dc-4bdd-93e3-a9f7f223c4a0")
-	)
-	(gr_line
-		(start 146.54 117.33)
-		(end 146.54 55.77)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "3f0ef3ec-b823-4c37-9103-ddf4955c5345")
-	)
-	(gr_line
-		(start 176.04 55.77)
-		(end 176.04 117.33)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "f77e0d18-07be-4bd6-8dc0-0d662e390812")
-	)
-	(gr_line
-		(start 176.04 117.33)
-		(end 146.54 117.33)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "9377f344-f213-477e-9c27-2704e19bb7f9")
-	)
 	(gr_text "L-P14-GND\n"
 		(at 144.54 111.79 0)
 		(layer "F.SilkS")
