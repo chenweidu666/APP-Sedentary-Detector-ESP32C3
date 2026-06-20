@@ -43,42 +43,85 @@ MPU6050 有内置 DMP 可硬件计算姿态角，减轻 MCU 负担；6 轴数据
 
 ## 模块尺寸与引脚
 
-### ESP32-WROOM-32 开发板 (合宙)
+### ESP32-WROOM-32 开发板 (ESP32-DevKitC 风格)
 
 ![ESP32-WROOM-32 引脚图](images/esp32-wroom-32-pinout.jpg)
 
+板型：**ESP32 开发板**（ESP32-DevKitC 风格，搭载 ESP32-WROOM-32 模块）。
+
 ```
-尺寸: 51.85 × 23.5 mm
-引脚: 2 × 15pin 排针, 2.54mm 间距, 排针间距 23.5mm
+尺寸: 51.85 × 23.5 mm（常见 DevKitC 类开发板）
+引脚: 左列 15pin + 右列 14pin, 2.54mm 间距, 双排间距约 23.5mm
 安装孔: 4× φ3mm, 距边 3mm
-
-             USB-C (下方)
-      ─────────────────────────────────┐
-      │ O                             O │ ← 安装孔 φ3mm
-  GND │ ●  [ESP32-WROOM-32]          ● │ GND
-   5V │ ●                             ● │ 3V3
-  IO0 │ ●                             ● │ IO10
-  IO1 │ ●                             ● │ IO9
-  IO2 │ ●  ← INT (唤醒)              ● │ IO8
-  IO3 │ ●                             ● │ IO7
-  IO4 │ ●  ← SDA                     ● │ IO6
-  IO5 │ ●  ← SCL                     ● │ IO5
-   RX │ ●                             ● │ TX
-      │ O                             O │
-      ─────────────────────────────────┘
-        ←──── 51.85mm ────→
-
-实际引脚定义 (从图片):
-左列 (上→下): EN, GPIO15, GPIO14, GPIO13, GPIO12, GPIO11, GPIO10, GPIO9, GPIO8, GPIO7, GPIO6, GPIO5, GPIO4, GPIO3, GPIO2, GND, VIN
-右列 (上→下): GPIO23, GPIO22, GPIO21, GPIO19, GPIO18, GPIO5, GPIO17, GPIO16, GPIO4, GPIO2, GPIO15, GPIO13, GND, VCC 3V3
-
-本设计使用:
-  - GPIO4 → SDA (I2C 数据)
-  - GPIO5 → SCL (I2C 时钟)
-  - GPIO2 → MPU6050 INT (运动中断唤醒)
-  - 5V/VIN → 电源输入 (PM11 升压 5V)
-  - GND → 共地
+USB: USB-C / Micro-USB（视具体批次）
 ```
+
+#### 左侧引脚（从上到下）
+
+| 序号 | 引脚 | 功能说明 |
+|------|------|----------|
+| 1 | **3V3** | 3.3V 电源输出 |
+| 2 | **EN** | 使能/复位引脚（高电平有效） |
+| 3 | **GPIO36 (VP)** | ADC1_CH0，仅输入 |
+| 4 | **GPIO39 (VN)** | ADC1_CH3，仅输入 |
+| 5 | **GPIO34** | ADC1_CH6，仅输入 |
+| 6 | **GPIO35** | ADC1_CH7，仅输入 |
+| 7 | **GPIO32** | ADC1_CH4 / TOUCH9 |
+| 8 | **GPIO33** | ADC1_CH5 / TOUCH8 |
+| 9 | **GPIO25** | ADC2_CH8 / DAC_1 |
+| 10 | **GPIO26** | ADC2_CH9 / DAC_2 |
+| 11 | **GPIO27** | ADC2_CH7 / TOUCH7 |
+| 12 | **GPIO14** | ADC2_CH6 / TOUCH6 / MTMS |
+| 13 | **GPIO12** | ADC2_CH5 / TOUCH5 / MTDI |
+| 14 | **GND** | 接地 |
+| 15 | **VIN** | 外部电源输入（5V） |
+
+#### 右侧引脚（从上到下）
+
+| 序号 | 引脚 | 功能说明 |
+|------|------|----------|
+| 1 | **GPIO23** | VSPI MOSI |
+| 2 | **GPIO22** | I2C SCL（时钟） |
+| 3 | **GPIO21** | I2C SDA（数据） |
+| 4 | **GND** | 接地 |
+| 5 | **GPIO19** | VSPI MISO |
+| 6 | **GPIO18** | VSPI SCK（时钟） |
+| 7 | **GPIO5** | VSPI SS / TOUCH5 |
+| 8 | **GPIO17** | UART2 TXD（发送） |
+| 9 | **GPIO16** | UART2 RXD（接收） |
+| 10 | **GPIO4** | TOUCH0 / ADC2_CH0 |
+| 11 | **GPIO2** | TOUCH2 / ADC2_CH2 / 板载 LED |
+| 12 | **GPIO15** | U0 RTS / TOUCH3 / ADC2_CH3 |
+| 13 | **GND** | 接地 |
+| 14 | **3V3** | 3.3V 电源输出 |
+
+#### 引脚使用注意事项
+
+1. **GPIO34~39** 是**仅输入**引脚，没有输出能力，也没有内部上拉/下拉电阻
+2. **GPIO6~11** 已被板载 SPI Flash 占用，**不建议使用**
+3. **GPIO12** 在上电时会影响 Flash 工作电压（MTDI），建议上电时保持低电平
+4. **GPIO0** 是下载模式引脚（板子底部有 BOOT 按钮），上电时拉低进入下载模式
+5. 板载 LED 通常连接在 **GPIO2** 上
+
+#### 本设计使用
+
+| 信号 | GPIO | 2×15 Pin# | DevKitC 位置 | 用途 |
+|------|------|-----------|--------------|------|
+| SDA | GPIO4 | **25** | 右列 Pin 10 | MPU6050 I2C 数据 |
+| SCL | GPIO5 | **22** | 右列 Pin 7 | MPU6050 I2C 时钟 |
+| INT | GPIO2 | **26** | 右列 Pin 11 | MPU6050 运动中断唤醒 |
+| 3V3 | 3V3 | **1** | 左列 Pin 1 | 供 MPU6050 |
+| VIN | VIN | **15** | 左列 Pin 15 | PM11 5V（经滑动开关） |
+| GND | GND | **14, 19, 28** | 左14 / 右4、13 | 共地铺铜 |
+
+> **2×15 统一编号**（Pin 1–30，KiCad 载板用）见 [`HARDWARE_PINOUT.md`](HARDWARE_PINOUT.md)。上文左/右列表格便于对照开发板丝印。
+
+**设计注意：**
+
+- 本设计 I2C 用 **GPIO4/GPIO5**，非 DevKitC 默认的 GPIO21/22；固件需 `Wire.begin(4, 5)`（Arduino）或指定 SDA/SCL 引脚（ESP-IDF）
+- **GPIO2** 与板载 LED 共用，MPU6050 中断时 LED 可能随动
+- **GPIO12** 上电时勿拉高（Flash 电压选择）；载板 NC 即可
+- 收到板后**务必核对丝印**，克隆板排布可能略有差异
 
 ### GY-521 模块 (MPU6050)
 
@@ -204,7 +247,7 @@ GND  ────────────────── MPU6050 GND
 |------|-----|
 | PCB 尺寸 | 80mm × 50mm (2 层) |
 | 工作电压 | 5V (PM11 电池模块升压输出) |
-| 模块插接 | 排母座 2.54mm 间距 |
+| 模块插接 | 2×15P + 1×8P 排母，2.54mm 间距 |
 | 电池接口 | PM11 自带 JST 接口 (直连载板) |
 | 开关 | SS-12D00 滑动开关 |
 | 扩展 | 预留 4 个 GPIO 排针 |
@@ -225,7 +268,7 @@ GND  ────────────────── MPU6050 GND
 │  ESP32 GPIO5 ────── GY-521 SCL                           │
 │  ESP32 GPIO2 ────── GY-521 INT                           │
 │                                                          │
-│  扩展排针: GPIO3, GPIO6, GPIO7, GPIO8 (预留)              │
+│  扩展排针: GPIO14, GPIO25, GPIO26 (预留, 见载板接线表)     │
 │                                                          │
 └──────────────────────────────────────────────────────────┘
 ```
@@ -239,7 +282,7 @@ GND  ────────────────── MPU6050 GND
 │  ┌──────────────┐  ┌─────────┐  │
 │  │  ESP32-WROOM │  │ GY-521  │  │
 │  │  -32         │  │ MPU6050 │  │  50mm
-│  │  (排母 2×15)  │  │(排母1×8)│  │
+│  │  (2×15P)     │  │(排母1×8)│  │
 │  │              │  │         │  │
 │  └──────────────  └─────────┘  │
 │                                  │
@@ -269,7 +312,7 @@ GND  ────────────────── MPU6050 GND
 
 | # | 元件 | 型号/规格 | 封装 | 数量 | 备注 |
 |---|------|----------|------|:----:|------|
-| 1 | 排母座 (ESP32) | 1×15P 2.54mm | 直插 | 2 | 双排插接 ESP32-WROOM-32 |
+| 1 | 排母座 (ESP32) | 2×15P 2.54mm | 直插 | 1 | DevKitC 双排（Pin30=NC） |
 | 2 | 排母座 (MPU6050) | 1×8P 2.54mm | 直插 | 1 | 插接 GY-521 |
 | 3 | 滑动开关 | SS-12D00 | 直插 3P | 1 | 电源通断 |
 | 4 | JST-PH 座子 | PH 2.0mm 2P | 卧式直插 | 1 | PM11 电池接口 |
@@ -280,43 +323,27 @@ GND  ────────────────── MPU6050 GND
 
 ---
 
-## 载板接线表 (立创 EDA 直接可用)
+## 载板接线表 (立创 EDA / KiCad 直接可用)
 
-> ⚠️ **重要**: 以下引脚定义基于常见 ESP32-WROOM-32 排布。收到板后**务必用万用表核对丝印**，如有差异在此更新。
+> ⚠️ **重要**: 载板按 **2×15 统一编号**（与 KiCad `PinSocket_2x15` 一致）。完整 30 Pin 定义见 [`HARDWARE_PINOUT.md`](HARDWARE_PINOUT.md)。收到板后**务必用万用表核对丝印**。
 
-### ESP32-WROOM-32 排母 (2×15P, 双排)
+### ESP32 排母 (2×15P)
 
-```
-排母 A (左侧, 1×15P):
-Pin 1  → GND
-Pin 2  → 3V3  (板载 LDO 输出 3.3V, 供 MPU6050)
-Pin 3  → GPIO0 (BOOT, 烧录用)
-Pin 4  → GPIO1 (预留扩展)
-Pin 5  → GPIO2 (MPU6050 INT 中断唤醒)
-Pin 6  → GPIO3 (预留扩展)
-Pin 7  → GPIO4 (MPU6050 SDA, I2C 数据)
-Pin 8  → GPIO5 (MPU6050 SCL, I2C 时钟)
-Pin 9  → GND
-Pin 10 → 5V
-Pin 11 → GPIO4
-Pin 12 → GPIO5
-Pin 13 → GPIO6 (预留扩展)
-Pin 14 → GPIO7 (预留扩展)
-Pin 15 → GND
-
-排母 B (右侧, 1×15P):
-Pin 1  → GND
-Pin 2  → VIN  (5V 输入, 经开关接 PM11 5V OUT)
-Pin 3  → GPIO8  (预留扩展)
-Pin 4  → GPIO9  (预留扩展)
-Pin 5  → GPIO10 (预留扩展)
-Pin 6  → RX     (预留扩展)
-Pin 7  → TX     (预留扩展)
-Pin 8  → GPIO18 (预留扩展)
-Pin 9  → GPIO19 (预留扩展)
-Pin 10 → GND
-Pin 11-15 → NC
-```
+| Pin | 信号 | 载板连接 |
+|-----|------|----------|
+| 1 | 3V3 | → GY-521 VCC |
+| 9 | GPIO25 | → 扩展 Pin2 |
+| 10 | GPIO26 | → 扩展 Pin3 |
+| 12 | GPIO14 | → 扩展 Pin1 |
+| 14 | GND | → GND 铺铜 |
+| 15 | VIN | ← 滑动开关（PM11 5V） |
+| 19 | GND | → GND 铺铜 |
+| 22 | GPIO5 | → GY-521 SCL |
+| 25 | GPIO4 | → GY-521 SDA |
+| 26 | GPIO2 | → GY-521 INT |
+| 28 | GND | → GND 铺铜 |
+| 30 | NC | 不接（DevKitC 右列仅 14 脚） |
+| 其余 | — | NC |
 
 ### GY-521 MPU6050 排母 (1×8P)
 
@@ -349,9 +376,9 @@ Pin 3 → 悬空 (或接 Pin1 作常闭)
 ### 扩展排针 (1×4P)
 
 ```
-Pin 1 → GPIO1 (可复用)
-Pin 2 → GPIO3 (可复用)
-Pin 3 → GPIO6 (可复用)
+Pin 1 → GPIO14 (ESP32 Pin12, 可复用)
+Pin 2 → GPIO25 (ESP32 Pin9,  可复用)
+Pin 3 → GPIO26 (ESP32 Pin10, 可复用)
 Pin 4 → GND
 ```
 
@@ -362,15 +389,15 @@ Pin 4 → GND
 | 网络名 | 起点 | 终点 | 线宽建议 |
 |--------|------|------|----------|
 | 5V_PM11 | JST Pin1 | 开关 Pin1 | 20mil |
-| VIN_SW | 开关 Pin2 | ESP32 VIN (排母B Pin2) | 20mil |
-| GND | JST Pin2 → ESP32 GND → GY521 GND | 大面积铺铜 | 铺铜 |
-| 3V3 | ESP32 3V3 (排母A Pin2) → GY521 VCC | 15mil |
-| I2C_SDA | ESP32 GPIO4 (排母A Pin7) → GY521 SDA | 10mil |
-| I2C_SCL | ESP32 GPIO5 (排母A Pin8) → GY521 SCL | 10mil |
-| MPU_INT | ESP32 GPIO2 (排母A Pin5) → GY521 INT | 10mil |
-| EXT1 | ESP32 GPIO1 (排母A Pin4) → 扩展 Pin1 | 10mil |
-| EXT2 | ESP32 GPIO3 (排母A Pin6) → 扩展 Pin2 | 10mil |
-| EXT3 | ESP32 GPIO6 (排母B Pin3) → 扩展 Pin3 | 10mil |
+| VIN_SW | 开关 Pin2 | ESP32 Pin15 (VIN) | 20mil |
+| GND | JST Pin2 → ESP32 Pin14/19/28 → GY521 GND | 大面积铺铜 | 铺铜 |
+| 3V3 | ESP32 Pin1 (3V3) → GY521 VCC | 15mil |
+| I2C_SDA | ESP32 Pin25 (GPIO4) → GY521 SDA | 10mil |
+| I2C_SCL | ESP32 Pin22 (GPIO5) → GY521 SCL | 10mil |
+| MPU_INT | ESP32 Pin26 (GPIO2) → GY521 INT | 10mil |
+| EXT1 | ESP32 Pin12 (GPIO14) → 扩展 Pin1 | 10mil |
+| EXT2 | ESP32 Pin9 (GPIO25) → 扩展 Pin2 | 10mil |
+| EXT3 | ESP32 Pin10 (GPIO26) → 扩展 Pin3 | 10mil |
 | EXT_GND | ESP32 GND → 扩展 Pin4 | 铺铜 |
 
 ---
@@ -386,7 +413,7 @@ Pin 4 → GND
 
 | 搜索关键词 | 元件 | 数量 |
 |-----------|------|:----:|
-| `Header Female 1x15` | 2.54mm 排母 1×15P | 2 |
+| `PinSocket 2x15` 或 `Header Female 2x15` | 2.54mm 排母 2×15P | 1 |
 | `Header Female 1x8` | 2.54mm 排母 1×8P | 1 |
 | `SS-12D00` | 滑动开关 | 1 |
 | `JST PH 2P` 或 `B2B-PH-SM` | JST-PH 2.0 座子 | 1 |
