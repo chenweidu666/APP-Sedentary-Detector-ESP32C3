@@ -78,9 +78,121 @@ rm -rf Projects/xxx/.git
 
 ---
 
+---
+
+### 问题 4: PCB 布尔值格式错误 "应为 'true|false'"
+
+**现象：**
+- KiCad 打开 PCB 报错：`应为 'true|false' in '...SedentaryDetector.kicad_pcb', line 45, offset 28`
+- 错误位置在 `(pcbplotparams ...)` 区域
+
+**原因：**
+- KiCad 7 的 PCB 文件格式要求布尔值使用 `true`/`false`
+- 手写文件时使用了 `yes`/`no` (KiCad 6 或旧格式)
+
+**错误格式：**
+```kicad_pcb
+(pcbplotparams
+  (usegerberextensions no)
+  (usegerberattributes yes)
+  (mirror no)
+)
+```
+
+**正确格式：**
+```kicad_pcb
+(pcbplotparams
+  (usegerberextensions false)
+  (usegerberattributes true)
+  (mirror false)
+)
+```
+
+**修复：**
+```bash
+sed -i 's/(usegerberextensions no)/(usegerberextensions false)/g' file.kicad_pcb
+sed -i 's/(usegerberattributes yes)/(usegerberattributes true)/g' file.kicad_pcb
+sed -i 's/(mirror no)/(mirror false)/g' file.kicad_pcb
+```
+
+---
+
+### 问题 5: PCB 元件标识符 uuid vs tstamp
+
+**现象：**
+- KiCad 报错：`应为 'locked, placed, tedit, tstamp, at, ...' in '...kicad_pcb', line 82, offset 6`
+
+**原因：**
+- KiCad 7 的 footprint 使用 `(tstamp UUID)` 而不是 `(uuid UUID)`
+- 手写 PCB 文件时误用了 `uuid` 关键字
+
+**错误格式：**
+```kicad_pcb
+(footprint "..." (layer "F.Cu")
+  (uuid "a1b2c3d4-...")
+  (at 20 25 0)
+)
+```
+
+**正确格式：**
+```kicad_pcb
+(footprint "..." (layer "F.Cu")
+  (tstamp 03d6bcdb-bcf8-4789-97c2-7161b855755d)
+  (at 20 25 0)
+)
+```
+
+---
+
+### 问题 6: PCB pad 定义缺少 tstamp
+
+**现象：**
+- KiCad 报错：`应为 'a symbol or number' in '...kicad_pcb', line 87, offset 94`
+
+**原因：**
+- KiCad 7 的 pad 定义需要 `(tstamp UUID)` 字段
+- 手写时只写了 `(net N)` 而缺少 tstamp
+
+**错误格式：**
+```kicad_pcb
+(pad "1" thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") (net 1))
+```
+
+**正确格式：**
+```kicad_pcb
+(pad "1" thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") (tstamp UUID) (net 1))
+```
+
+---
+
+## 经验总结
+
+### 手写 KiCad 文件的最佳实践
+
+1. **不要手写 `.kicad_pcb`** — KiCad 7+ 文件格式复杂，字段顺序和关键字严格
+2. **从 demo 复制模板** — 使用 `/usr/share/kicad/demos/` 中的文件作为起点
+3. **用 KiCad GUI 保存** — 让 KiCad 自动生成正确格式的文件
+4. **布尔值用 true/false** — KiCad 7 不再接受 yes/no
+5. **uuid → tstamp** — KiCad 7 的元件/焊盘标识符关键字是 `tstamp`
+6. **pad 必须有 tstamp** — 每个 pad 都需要唯一的 tstamp UUID
+
+### 推荐工作流
+
+```bash
+# 1. 从 demo 复制模板
+cp /usr/share/kicad/demos/microwave/microwave.kicad_pcb myboard.kicad_pcb
+
+# 2. 用 KiCad GUI 打开并编辑
+kicad myboard.kicad_pro
+
+# 3. 保存后检查格式
+kicad-cli pcb export svg myboard.kicad_pcb -o output.svg --layers F.Cu
+```
+
+---
+
 ## 待办
 
-- [ ] 验证 PWR_FLAG 符号库配置
-- [ ] 修复 PCB 文件格式
+- [ ] 用 KiCad GUI 重新生成 PCB 文件（替代手写）
 - [ ] 添加 DRC 检查通过截图
 - [ ] 添加 3D 预览截图
