@@ -6,7 +6,7 @@
 |---|------|------|:----:|------|
 | 1 | ESP32 开发板 | ESP32-WROOM-32 (DevKitC) | 1 | [tmall](https://detail.tmall.com/item.htm?id=805161973303) |
 | 2 | MPU6050 模块 | GY-521 六轴传感器 | 1 | [tmall](https://detail.tmall.com/item.htm?id=729656168752) |
-| 3 | Type-C 充电电池 | 5V 输出, 带保护板 | 1 | 淘宝搜索 |
+| 3 | PM11 锂电池模块 | 3.7V+充电+升压 5V/2.4A | 1 | [emakefun](https://docs.emakefun.com/#/zh-cn/power_module/PM11/PM11) |
 | 4 | 滑动开关 | SS-12D00 3P 直插 | 1 | 淘宝搜索 |
 | 5 | 排母 | 1×15P 2.54mm 直插 | 2 | - |
 | 6 | 排母 | 1×8P 2.54mm 直插 | 1 | - |
@@ -109,16 +109,24 @@
 
 ## 电源方案
 
-使用 **Type-C 充电电池**（自带 USB 充电、5V 稳压输出）：
+使用 **PM11 锂电池模块**（3.7V LiPo + TP4056 充电 + 升压 5V/2.4A）：
 
 ```
-Type-C 充电电池 (5V OUT) → SS-12D00 开关 → ESP32 Pin15 (VIN)
-                          └─ GND ──────────→ ESP32 Pin14 (GND)
+PM11 5V OUT → JST-PH Pin1 → SS-12D00 开关 → ESP32 Pin15 (VIN)
+PM11 GND   → JST-PH Pin2 → ESP32 Pin14 (GND)
 ```
 
-- 电池自带 Type-C 充电口和 5V 稳压输出，无需额外充电/升压模块
-- SS-12D00 滑动开关串联在正极，物理断电
+- PM11 自带 Type-C 充电口，插入即可充电
+- 内置升压电路，JST 输出稳定 5V/2.4A
+- 滑动开关串联在 5V 和 ESP32 VIN 之间，物理断电
 - ESP32 板载 LDO 将 5V 稳压到 3.3V，供 MPU6050 使用
+
+| 参数 | 值 |
+|------|-----|
+| 尺寸 | ~40 × 20 × 12mm |
+| 电池 | 3.7V LiPo 内置 |
+| 输出 | 5V/2.4A (JST-PH 2.0) |
+| 充电 | Type-C, TP4056 |
 
 ### SS-12D00 滑动开关
 
