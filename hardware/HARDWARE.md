@@ -5,7 +5,7 @@
 | 模块 | 链接 |
 |------|------|
 | ESP32-WROOM-32 开发板 | https://detail.tmall.com/item.htm?id=805161973303&skuId=5879086331469 |
-| 陀螺仪模块 (MPU6050/GY-521) | https://detail.tmall.com/item.htm?id=729656168752&skuId=5367169145529 |
+| 陀螺仪模块 (MPU6050) | https://detail.tmall.com/item.htm?id=729656168752&skuId=5367169145529 |
 | PM11锂电池包 (3.7V+充电+升压5V/2.4A) | https://item.taobao.com/item.htm?id=1007451636387&skuId=6002389453662 |
 | SS-12D00 滑动开关 | 待补充 |
 | JST-PH 2.0 座子 | 待补充 |
@@ -72,7 +72,7 @@
 
 ### MPU6050 模块
 
-![MPU6050 GY-521](images/6050.png)
+![MPU6050 模块](images/6050.png)
 
 ```
 尺寸: 15.6 × 20.2 mm
