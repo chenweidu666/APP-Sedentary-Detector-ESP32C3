@@ -191,8 +191,45 @@ kicad-cli pcb export svg myboard.kicad_pcb -o output.svg --layers F.Cu
 
 ---
 
+---
+
+### 问题 7: KiCad 9 Python API 环境配置
+
+**现象：**
+- `import pcbnew` 报 `libwx_gtk3u_gl-3.3.so.2: cannot open shared object file`
+- 直接调用 AppImage 的 Python 会 stack smashing
+
+**原因：**
+- KiCad 9 AppImage 使用 `sharun` 运行时（`AppRun`）设置隔离环境
+- 直接调用 Python 时 glibc 版本冲突（AppDir 内置 2.38 vs Ubuntu 24.04 系统 2.39）
+- 必须通过 `AppRun` 启动才能正确加载 AppDir 内的库
+
+**解决方案：**
+```bash
+# 正确启动方式
+APPDIR=/path/to/AppDir
+SHARUN_DIR=$APPDIR $APPDIR/AppRun python3.11 script.py
+```
+
+**KiCad 9 API 变更 (相对于 KiCad 7/8)：**
+- `SetPadType` → `SetAttribute` (在 KiCad 9 中已移除)
+- `PAD_TYPE_TH` → `PAD_ATTRIB_PTH` (常量名变化)
+- `ZONE_CONNECTION_FULL` → `ZONE_CONNECTION_FULL` (未变)
+- Kicad 9 CLI 输出格式已改变
+
+---
+
+## 最终方案
+
+**推荐 KiCad 9 Python 工作流：**
+```bash
+APPDIR=/path/to/AppDir
+SHARUN_DIR=$APPDIR $APPDIR/AppRun python3.11 gen_pcb.py
+SHARUN_DIR=$APPDIR $APPDIR/AppRun kicad-cli pcb export svg board.kicad_pcb -o out.svg --layers F.Cu
+```
+
 ## 待办
 
-- [ ] 用 KiCad GUI 重新生成 PCB 文件（替代手写）
 - [ ] 添加 DRC 检查通过截图
 - [ ] 添加 3D 预览截图
+- [ ] 完善 PCB 走线 (I2C / INT / Power)
