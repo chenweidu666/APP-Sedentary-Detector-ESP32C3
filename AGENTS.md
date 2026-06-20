@@ -8,6 +8,8 @@
 
 `hardware/HARDWARE.md` 是网络、引脚映射、BOM、PCB 约束的唯一权威来源。生成原理图或 PCB 前必须先读该文件。
 
+通用 Agent PCB 工作流见 monorepo 文档：[`Docs/KiCad/agent-pcb-design.md`](../../Docs/KiCad/agent-pcb-design.md)。
+
 ## KiCad 安装
 
 | 组件 | 路径 / 版本 |
@@ -149,9 +151,19 @@ kicad-cli pcb export svg hardware/kicad/SedentaryDetector.kicad_pcb \
 kicad-cli pcb export gerbers hardware/kicad/SedentaryDetector.kicad_pcb -o hardware/kicad/gerbers/
 ```
 
+## Agent 工作流（本项目）
+
+```
+HARDWARE.md → gen_sch.py → ERC → gen_kicad_pcb.py → GUI 布局/布线 → kicad-cli drc → kicad-happy 评审 → Gerber
+```
+
+- **创建**：脚本生成骨架，禁止手写 `.kicad_pcb` S-expression
+- **验证**：DRC 通过后，用 kicad-happy 跑 schematic + PCB + EMC + SPICE
+- **出板**：Gerber 含 Cu / Edge.Cuts / Mask / Silkscreen / Drill
+
 ## kicad-happy（AI 辅助）
 
-仓库根目录 `Tools/kicad-happy/` 已通过 `opencode.json` 注册 skills。用于原理图分析、PCB 审查、EMC、BOM、制板文件等，依赖系统 `kicad-cli`。
+仓库根目录 `Tools/kicad-happy/` 已通过 `opencode.json` 注册 skills。用于原理图分析、PCB 审查、EMC、BOM、制板文件等，依赖系统 `kicad-cli`。完整评审清单见 [`Docs/KiCad/agent-pcb-design.md`](../../Docs/KiCad/agent-pcb-design.md#路径-bkicad-happy-辅助审查验证)。
 
 ## Python 依赖
 
@@ -164,7 +176,53 @@ kicad-cli pcb export gerbers hardware/kicad/SedentaryDetector.kicad_pcb -o hardw
 
 - [x] KiCad 10.0.4 系统安装
 - [x] `kicad_env` conda 环境
+- [x] PCB 布局完成 (80×50mm, J1 2×15 + J2 1×8, 丝印标注)
 - [ ] 原理图补全（SW1 / J3 / J4 + 网络连线）
-- [ ] PCB 布局修复（J1/J2 不可重叠）
-- [ ] 走线 + GND 铺铜
+- [ ] PCB 走线（I2C / INT / Power）
 - [ ] DRC 通过
+
+## pcbnew API 踩坑（KiCad 10）
+
+### 1. Pad 位置用绝对坐标
+```python
+# ❌ 相对坐标（KiCad 10 可能不生效）
+pd.SetPosition(pcbnew.VECTOR2I(x, y))  # 相对 footprint
+fp.Add(pd)
+
+# ✅ 绝对坐标（推荐）
+fp_pos_x, fp_pos_y = int(-22*mm), int(-7*pp)
+pd.SetPosition(pcbnew.VECTOR2I(fp_pos_x + col*rs, fp_pos_y + row*pp))
+```
+**原因**: KiCad 10 的 `SetPosition` 行为可能变化，用绝对坐标最安全。
+
+### 2. 清除飞线 (Ratsnest)
+```python
+# 飞线来自 net 分配。未走线前先不分配 net，避免 KiCad 显示蓝色飞线
+nets = board.GetNetsByName()
+empty_net = nets['']  # net 0
+for fp in board.GetFootprints():
+    for pd in fp.Pads():
+        pd.SetNet(empty_net)
+```
+
+### 3. 禁止手写 S-expression
+KiCad 10 格式严格（tab 缩进、uuid 需引号、boolean 用 true/false）。
+**始终用 `pcbnew` API 或 KiCad GUI 生成文件。**
+
+### 4. 工作流：先布局后走线
+1. pcbnew API 放封装 + 板框 + 丝印 → 在 KiCad GUI 验证
+2. 确认布局无误后，再加走线
+3. 走线前不要分配 net（避免飞线干扰视觉）
+
+### 5. 常用 API 常量
+| 常量 | 值 | 用途 |
+|------|-----|------|
+| `PAD_ATTRIB_PTH` | 0 | 通孔焊盘 |
+| `PAD_ATTRIB_NPTH` | 1 | 非金属化孔 (安装孔) |
+| `PAD_SHAPE_CIRCLE` | 0 | 圆形 |
+| `PAD_SHAPE_RECT` | 1 | 矩形 |
+| `SHAPE_T_SEGMENT` | 0 | 线段 (板框) |
+| `F_Cu` / `B_Cu` | - | 顶层/底层铜 |
+| `Edge_Cuts` | - | 板框层 |
+| `F_SilkS` | - | 顶层丝印 |
+| `ZONE_CONNECTION_FULL` | - | 铺铜全连接 |
