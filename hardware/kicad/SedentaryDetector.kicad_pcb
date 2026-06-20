@@ -1000,17 +1000,6 @@
 		(layer "F.SilkS")
 		(uuid "5bfbcfba-dbd7-4e2e-8e51-fc95711eb4b3")
 	)
-	(gr_rect
-		(start 136 53)
-		(end 190.5 122)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(fill no)
-		(layer "F.SilkS")
-		(uuid "e26fcb6f-162b-4353-9bf0-de7a0be1ae4e")
-	)
 	(gr_line
 		(start 190.5 53)
 		(end 136 53)
@@ -1031,45 +1020,16 @@
 		(layer "F.SilkS")
 		(uuid "7cb8e92e-675d-45c3-a43a-9943b517bd13")
 	)
-	(gr_line
-		(start 136.5 53.5)
-		(end 189.5 53.5)
+	(gr_rect
+		(start 136 53)
+		(end 190.5 122)
 		(stroke
 			(width 0.1)
 			(type default)
 		)
+		(fill no)
 		(layer "Edge.Cuts")
-		(uuid "59b853ea-fa9a-4043-8688-fd2467603aa5")
-	)
-	(gr_line
-		(start 136.5 121)
-		(end 136.5 53.5)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "a0ec6537-335c-4e5c-91e9-e01f83d38273")
-	)
-	(gr_line
-		(start 189.5 53.5)
-		(end 189.5 121)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "6be6b43a-da16-4341-ad9d-53675990c876")
-	)
-	(gr_line
-		(start 189.5 121)
-		(end 136.5 121)
-		(stroke
-			(width 0.1)
-			(type default)
-		)
-		(layer "Edge.Cuts")
-		(uuid "ea9b6184-742c-4b96-87da-513c6df405d7")
+		(uuid "e26fcb6f-162b-4353-9bf0-de7a0be1ae4e")
 	)
 	(gr_text "L-P14-GND\n"
 		(at 144.54 111.79 0)
