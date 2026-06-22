@@ -395,7 +395,7 @@ content += f"""
   )
 )"""
 
-dst = "/home/chenwei/Workspace/05-Foundation/04-Embedded-Projects/Projects/04-APP-Sedentary-Detector-ESP32C3/hardware/kicad/SedentaryDetector.kicad_sch"
+dst = "/home/chenwei/Workspace/05-Foundation/04-Embedded-Projects/Projects/02-APP-Sedentary-Detector-ESP32C3/hardware/kicad/SedentaryDetector.kicad_sch"
 with open(dst, "w") as f:
     f.write(content)
 

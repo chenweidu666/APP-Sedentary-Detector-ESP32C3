@@ -1,4 +1,4 @@
-# AGENTS.md — OpenCode Instructions for 04-APP-Sedentary-Detector-ESP32C3
+# AGENTS.md — OpenCode Instructions for 02-APP-Sedentary-Detector-ESP32C3
 
 ## Project
 

@@ -91,7 +91,7 @@ MPU6050 加速度计测量重力向量方向。坐下时椅子坐垫受力产生
 ## 项目结构
 
 ```
-04-APP-Sedentary-Detector-ESP32C3/
+02-APP-Sedentary-Detector-ESP32C3/
 ├── README.md                    # 项目总览 (本文件)
 ├── hardware/
 │   ├── HARDWARE.md              # 硬件设计文档 (选型、BOM、接线、供电、PCB、3D底座)
