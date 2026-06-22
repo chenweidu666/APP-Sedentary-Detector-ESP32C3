@@ -1,6 +1,6 @@
 # 固件设计文档
 
-> **平台**：ESP32-WROOM-32（`platformio.ini` 中 `board = esp32dev`）。载板 I2C 为 GPIO4/5，板载 LED 为 GPIO2。仓库目录名含 `ESP32C3` 为遗留命名。
+> **平台**：ESP32-WROOM-32（`platformio.ini` 中 `board = esp32dev`）。载板 I2C 为 GPIO4/5，板载 LED 为 GPIO2。
 
 ## 固件架构
 

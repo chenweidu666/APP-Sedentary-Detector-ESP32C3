@@ -14,7 +14,7 @@ pip install platformio
 ## 2. 编译与烧录
 
 ```bash
-cd Projects/02-APP-Sedentary-Detector-ESP32C3/firmware
+cd Projects/02-APP-Sedentary-Detector-ESP32/firmware
 pio run -t upload
 pio device monitor
 ```
