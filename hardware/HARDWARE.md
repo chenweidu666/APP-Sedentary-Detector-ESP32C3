@@ -244,7 +244,14 @@ ESP32 板载 LDO: VIN(5V) → 3V3 Pin30 → GY-87 VCC_IN
 
 ## 固件与交互
 
-载板无按键。校准与调试通过 **串口命令**（见 [software/firmware/README.md](../software/firmware/README.md)）；算法见 [software/firmware/ARCHITECTURE.md](../software/firmware/ARCHITECTURE.md)。
+本仓库**不包含固件源码**。联调与算法在 sibling 项目中维护：
+
+| 能力 | 项目 |
+|------|------|
+| GY-87 / MPU6050、久坐检测、BLE | [04-MCU-GY87-Debug](../../04-MCU-GY87-Debug) |
+| SSD1306 OLED、I2C 显示 | [03-ESP32-OLED-Button-Demo](../../03-ESP32-OLED-Button-Demo) |
+
+载板无按键；校准与调试使用上述项目中的串口命令与固件。
 
 **I2C 设备**
 
