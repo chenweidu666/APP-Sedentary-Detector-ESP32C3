@@ -106,7 +106,7 @@ I2C 扫描：
 0x1E  HMC5883L（可选，固件未用）
 ```
 
-> **PCB 版本**：原理图 **v0.6** 仅保留 MCU / IMU / OLED / 电源；**PCB v0.4** 走线仍待改后打样。
+> **PCB 版本**：见文末 [PCB 版本记录](#pcb-版本记录)。
 
 #### 杜邦线联调（ESP32 扩展板）
 
@@ -242,20 +242,25 @@ ESP32 板载 LDO: VIN(5V) → 3V3 Pin30 → GY-87 VCC_IN
 | 5 | JST 电源座 J3 | JST-PH 2.0mm 2P | 直插 | 1 |
 | 6 | PCB | 100×80mm 2层 1.6mm | - | 5 |
 
-## 固件交互（无载板按键）
+## 固件与交互
 
-校准、切页等通过 **串口命令** 或自动逻辑完成（见 `firmware/FIRMWARE.md`）。
+载板无按键。校准与调试通过 **串口命令**（见 [software/firmware/README.md](../software/firmware/README.md)）；算法见 [software/firmware/ARCHITECTURE.md](../software/firmware/ARCHITECTURE.md)。
 
-**状态机：** `上电→CALIBRATING(3s)→MONITORING→VACANT/OCCUPIED→ALERT`
+**I2C 设备**
 
-**告警解除：** 起身 (Δ<1° 持续3s) 自动解除 → VACANT。
-
-**I2C 设备：**
 | 设备 | 地址 |
 |------|------|
 | MPU6050 (GY-87) | 0x68 |
 | BMP180 (GY-87, 忽略) | 0x77 |
 | SSD1306 OLED | 0x3C |
+
+## PCB 版本记录
+
+| 版本 | 日期 | 变更 |
+|------|------|------|
+| 原理图 v0.6 | 2026-06 | 仅 J1 MCU + J2 GY-87 + J3 电源 + J4 OLED；移除载板按键/滑动开关 |
+| PCB v0.4 | — | 旧走线；J2 未与 GY-87 引脚顺序对齐，**不可直插 GY-87** |
+| 下一版打样 | 待 | 按 v0.6 原理图更新 J2 网络与走线，DRC 后 Gerber |
 
 ## PCB 规格
 

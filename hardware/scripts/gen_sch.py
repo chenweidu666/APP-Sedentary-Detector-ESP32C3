@@ -3,7 +3,7 @@
 import uuid
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 # 默认写入 .gen 文件，避免覆盖 KiCad GUI 中手工维护的原理图
 DST = ROOT / "hardware/kicad/SedentaryDetector.gen.kicad_sch"
 
