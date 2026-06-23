@@ -12,15 +12,17 @@
 
 **策略**：现成模块 + 定制载板 PCB 插接互连；PM11 锂电包供电（USB 充电，模块自带开关）。
 
+**载板布线节奏**：KiCad 已完成原理图、布局与网络分配；**PCB 尚未布线**。固件与算法仍在 [03](../../03-ESP32-OLED-Button-Demo) / [04](../../04-MCU-GY87-Debug) 中联调，接口与引脚稳定后再走线、DRC、打样，避免返工。
+
 ## 当前进度
 
 | 模块 | 状态 |
 |------|------|
 | 硬件方案 | ✅ MCU + GY-87 + OLED + PM11（无载板按键/开关） |
 | 原理图 | ✅ v0.6（J1–J4 网络） |
-| 载板 PCB | 🔧 v0.4 待按 v0.6 改 J2 等走线后打样 |
-| GY-87 / IMU 联调 | ✅ 见 [04-MCU-GY87-Debug](../../04-MCU-GY87-Debug) |
-| OLED 联调 | ✅ 见 [03-ESP32-OLED-Button-Demo](../../03-ESP32-OLED-Button-Demo) |
+| 载板 PCB | 🔧 v0.4 已布局 + 网络分配 + J2 对齐；**未布线**（等软件联调稳定后走线打样） |
+| GY-87 / IMU 联调 | 🔧 [04-MCU-GY87-Debug](../../04-MCU-GY87-Debug) 调试中 |
+| OLED 联调 | 🔧 [03-ESP32-OLED-Button-Demo](../../03-ESP32-OLED-Button-Demo) 调试中 |
 | 3D 底座 | ⏳ 待设计 |
 
 ## 系统架构
@@ -87,8 +89,8 @@ kicad hardware/kicad/SedentaryDetector.kicad_pro
 
 | 阶段 | 目标 | 状态 |
 |------|------|------|
-| M1 模块联调 | GY-87 + OLED（03/04 项目） | ✅ |
-| M2 载板 | PCB v0.6 打样焊接 | ⏳ |
+| M1 模块联调 | 杜邦线验证 GY-87 + OLED（03/04） | 🔧 |
+| M2 载板 | 软件稳定后 PCB 布线 → DRC → 打样焊接 | ⏳ |
 | M3 整合 | 载板 + 03/04 固件合并产品化 | ⏳ |
 
 ## License

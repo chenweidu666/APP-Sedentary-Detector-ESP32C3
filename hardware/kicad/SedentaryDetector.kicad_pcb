@@ -931,7 +931,7 @@
 	(footprint ""
 		(layer "F.Cu")
 		(uuid "daf2c3f8-72a0-41b6-ba9d-fcdded4fcb7f")
-		(at 128 52)
+		(at 310 114.19)
 		(property "Reference" "J4"
 			(at 0 0 0)
 			(layer "F.SilkS")
