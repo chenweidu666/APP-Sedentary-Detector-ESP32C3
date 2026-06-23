@@ -48,15 +48,22 @@
 
 检测算法与固件开发见下方**关联软件项目**。
 
-## 文档地图
+## 文档
 
 | 文档 | 内容 |
 |------|------|
-| [hardware/HARDWARE.md](hardware/HARDWARE.md) | **硬件权威**：BOM、网络表、模块引脚、电源、PCB |
-| [hardware/README.md](hardware/README.md) | KiCad 工程入口 |
+| [hardware/HARDWARE.md](hardware/HARDWARE.md) | **硬件权威**：BOM、网络表、模块引脚、电源、PCB 版本 |
 | [AGENTS.md](AGENTS.md) | AI / KiCad 自动化工作流 |
 
-### 关联软件项目（本仓库不含源码）
+### KiCad 载板工程
+
+```bash
+kicad hardware/kicad/SedentaryDetector.kicad_pro
+```
+
+打样前核对 [hardware/HARDWARE.md §PCB 版本记录](hardware/HARDWARE.md#pcb-版本记录)。
+
+### 关联软件项目（本仓库不含固件源码）
 
 | 项目 | 内容 |
 |------|------|
@@ -67,9 +74,13 @@
 
 ```
 02-APP-Sedentary-Detector-ESP32/
-├── README.md
+├── README.md          # 本文件（仓库唯一 README）
 ├── AGENTS.md
-└── hardware/          # 载板、BOM、KiCad、gen_sch.py
+└── hardware/
+    ├── HARDWARE.md
+    ├── images/
+    ├── kicad/
+    └── scripts/
 ```
 
 ## 里程碑
